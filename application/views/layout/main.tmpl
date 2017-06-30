@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ru">
+    {% include "/parts/head.html" with data %}
+    <body>
+        {% include "/parts/navbar.html" %}
+        <div class="container">
+            {% include  template with data %}
+        </div>
+        {% include "/parts/footer.html" %}
+    </body>
+</html>

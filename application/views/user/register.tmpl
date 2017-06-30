@@ -1,0 +1,21 @@
+<div class="col-sm-4 col-sm-offset-4">
+    <h1>Регистрация</h1>
+    {% if data.errors %}
+    {% include  "/errors/errors.tmpl" with data.errors %}
+    {% endif %}
+    <form method="post" action="/user/register">
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <input type="email" name="email" class="form-control" id="Email" placeholder="Email">
+        </div>
+        <div class="form-group">
+            <label for="Password">Пароль</label>
+            <input type="password" name="password" class="form-control" id="Password" placeholder="Пароль">
+        </div>
+        <div class="form-group">
+            <label for="Password2">Повторите пароль</label>
+            <input type="password" name="password2" class="form-control" id="Password2" placeholder="Повторите пароль">
+        </div>
+        <button type="submit" class="btn btn-default">Регистрация</button>
+    </form>
+</div>

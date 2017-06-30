@@ -1,0 +1,22 @@
+{
+    "name": "SkeepyRU/geekbrains",
+    "authors": [
+        {
+            "name": "Yury Gotovko",
+            "email": "skeepy.ru@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/",
+            "controllers\\": "controllers/",
+            "models\\": "models"
+        },
+        "files": [
+            "app/config.php"
+        ]
+    }
+}
