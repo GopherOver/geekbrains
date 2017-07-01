@@ -10,6 +10,7 @@ class BaseController
     public function render($template = "index.tmpl", array $data)
     {
         $twig = new \Twig_Environment(new \Twig_Loader_Filesystem('../views/'), array());
+        $twig->addExtension(new \Twig_Extensions_Extension_Text());
 
         $userData = (new UserModel())->getUserData();
         $array = array_merge($data, $userData);

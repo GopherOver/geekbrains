@@ -1,0 +1,49 @@
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ product.name }}</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="col-md-4">
+                <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        {% for image in images %}
+                            <li data-target="#carousel-example-generic" data-slide-to="{{ image.id - 1 }}" class=""></li>
+                        {% endfor %}
+                    </ol>
+
+                    <div class="carousel-inner" role="listbox">
+                        {% for image in images %}
+                            <div class="item {{ loop.first ? "active" : "" }}">
+                                <img alt="{{ image.src }}" src="/img/{{ image.src }}" data-holder-rendered="true">
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <a href="#carousel-example-generic" class="left carousel-control" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a> <a href="#carousel-example-generic" class="right carousel-control" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div>
+                    {{ product.description }}
+                </div>
+                <div class="row pull-right">
+                    <div>
+                        <h3>{{ product.price }} <i class="fa fa-rub"></i></h3>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-danger" disabled>Купить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -100,6 +100,7 @@ class UserModel extends BaseModel
         return $this->execute($query, $props);
     }
 
+
     public function doLogin()
     {
         $email = trim($_POST['email']);

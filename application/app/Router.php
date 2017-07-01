@@ -26,9 +26,10 @@ class Router
         // Добавляем маршруты
         $this->addRoutes();
         // Если URL не передан, берем его из REQUEST_URI
-        if (empty($requestedUri))
+        if ($requestedUri === NULL)
         {
-            $uri = reset(explode('?', $_SERVER['REQUEST_URI']));
+            $uri_e = explode('?', $_SERVER['REQUEST_URI']);
+            $uri = reset($uri_e);
             $requestedUri = urldecode(rtrim($uri, '/'));
         }
 
@@ -85,8 +86,10 @@ class Router
 
         $params = array_slice($this->params, 2);
 
+        $controller = new $controller();
+
         if (empty($params))
-            (new $controller())->$action();
+            $controller->$action();
         else
             return call_user_func_array([$controller, $action], $params);
     }

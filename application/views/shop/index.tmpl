@@ -1,0 +1,14 @@
+<div class="row">
+    {% for product in products %}
+    <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <img src="/img/{{ product.img }}" alt="{{ product.name }}">
+            <div class="caption">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.description|truncate(100) }}</p>
+                <p><a href="/shop/view/product/{{ product.id }}" class="btn btn-default" role="button">Подробнее</a> <a href="#" class="btn btn-danger disabled" role="button">Купить</a></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

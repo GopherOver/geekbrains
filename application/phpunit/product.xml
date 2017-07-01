@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <product
+            id="1"
+            name="Apple iPhone 7"
+            price="45990"
+            group_id="1"
+            img="iphone-7.jpg"
+            description="В iPhone 7 все важнейшие аспекты iPhone значительно улучшены. Это принципиально новая система камер для фото и видеосъёмки. Максимально мощный и экономичный аккумулятор. Стереодинамики с богатым звучанием. Самый яркий и разноцветный из всех дисплеев iPhone. Защита от брызг и воды. И его внешние данные впечатляют не менее, чем внутренние возможности. Всё это iPhone 7. "/>
+    <product
+            id="2"
+            name="Samsung S8"
+            price="50990"
+            group_id="2"
+            img="samsung-s8.jpg"
+            description="Новый Samsung Galaxy меняет представление о смартфоне. Безграничный изогнутый с двух сторон экран обеспечивает эффект полного погружения и подчёркивает гармонию стиля и инноваций. Сканер радужной оболочки глаза позволяет надёжно защитить личные данные и с лёгкостью разблокировать смартфон. Камера 12 Мп c технологией Dual Pixel и диафрагмой F1.7 помогает делать потрясающие снимки при любых условиях освещённости."/>
+    <product_img
+            id="1"
+            src="iphone-7.jpg"
+            product_id="1"/>
+    <product_img
+            id="2"
+            src="iphone-7-1.jpg"
+            product_id="1"/>
+    <product_img
+            id="3"
+            src="iphone-7-2.jpg"
+            product_id="1"/>
+    <product_img
+            id="4"
+            src="samsung-s8.jpg"
+            product_id="2"/>
+    <product_img
+            id="5"
+            src="samsung-s8-1.jpg"
+            product_id="2"/>
+    <product_img
+            id="6"
+            src="samsung-s8-2.jpg"
+            product_id="2"/>
+</dataset>

@@ -7,7 +7,8 @@ use PDO;
 
 class DatabaseModel
 {
-    protected $_instanceDB;
+    private $_instanceDB;
+    protected $_table;
 
     function __construct()
     {
@@ -22,17 +23,52 @@ class DatabaseModel
         $this->_instanceDB = new PDO($dsn, Application::instance()->config['db']['user'], Application::instance()->config['db']['pass'], $opt);
     }
 
-    public function execute($query, $props = [])
+    private function execute($query, $props = [], $fetchAll = false)
     {
         try {
             $stmt = $this->_instanceDB->prepare($query);
             $stmt->execute($props);
-            $data = $stmt->fetch();
+            $data = $fetchAll ? $stmt->fetchAll() : $stmt->fetch();
         } catch (\Exception $e) {
             die($e);
         }
 
         return $data ? $data : false;
+    }
+
+    public function findAll($table = NULL, $where = NULL)
+    {
+        $query = 'SELECT
+                *
+            FROM ';
+
+        $query .= $table ? $table : $this->_table;
+
+        if (isset($where))
+            $query .= '
+            WHERE
+            '.$where;
+
+        $query .= ' LIMIT 10';
+
+        $props = [];
+
+        return $this->execute($query, $props, true);
+    }
+
+    public function findId($id)
+    {
+        $query = 'SELECT
+                *
+            FROM '.$this->_table. '
+            WHERE
+              `id` = :id';
+
+        $props = [
+            'id' => $id
+        ];
+
+        return $this->execute($query, $props);
     }
 
 }
