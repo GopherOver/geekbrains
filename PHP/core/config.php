@@ -4,10 +4,13 @@ function getConfig()
 {
     return [
         'db' => [
-            'host' => 'localhost',
-            'name' => 'l5.gb',
-            'user' => 'root',
-            'pass' => '1'
+            'default' => [
+                'host'      => 'localhost',
+                'name'      => 'l5.gb',
+                'charset'   => 'utf8',
+                'user'      => 'root',
+                'pass'      => '1'
+            ],
         ],
         /**
          * 'url' => 'контроллер/действие/параметр1/параметр2/параметр3'
@@ -25,6 +28,8 @@ function getConfig()
             '/shop/view/product/:num'       => 'shop/viewProduct/$1',
             '/shop'                         => 'shop/index',
 
+            '/admin/order/statusChange'     => 'admin/statusChange',
+            '/admin'                        => 'admin/index',
             '/:any'                         => 'main/error' // все остальные запросы обрабатываются здесь
         ]
     ];

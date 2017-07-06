@@ -1,6 +1,6 @@
 <?php
 
-namespace app;
+namespace core;
 
 trait Singleton {
     static private $instance = null;

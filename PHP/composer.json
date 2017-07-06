@@ -12,16 +12,17 @@
     },
     "autoload": {
         "psr-4": {
-            "app\\": "app/",
+            "core\\": "core/",
             "controllers\\": "controllers/",
             "models\\": "models"
         },
         "files": [
-            "app/config.php"
+            "core/config.php"
         ]
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2",
-        "phpunit/php-invoker": "^1.1"
+        "phpunit/php-invoker": "^1.1",
+        "phpunit/dbunit": "3.0.0"
     }
 }

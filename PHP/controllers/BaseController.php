@@ -12,11 +12,11 @@ class BaseController
         $twig = new \Twig_Environment(new \Twig_Loader_Filesystem('../views/'), array());
         $twig->addExtension(new \Twig_Extensions_Extension_Text());
 
-        $userData = (new UserModel())->getUserData();
+        $userData = ['user' => (new UserModel())->getUser()];
         $array = array_merge($data, $userData);
 
         echo $twig->render('layout/main.tmpl', array(
-            "template" => $template,
+            "template" => $template . '.tmpl',
             "data" => $array
         ));
     }

@@ -1,2 +1,33 @@
-<h1>Личный кабинет</h1>
-<p>Привет, {{ user.email }}!</p>
+{% for order_a in orders %}
+    {% for order in order_a %}
+        {% if loop.first %}
+        <div class="panel panel-default">
+            <div class="panel-heading">Заказ #{{ order.id }} <span class="label label-{{ order.css }}">{{ order.status_name }}</span>
+                <span class="pull-right">Дата оформления: {{ order.created_at }}</span>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Стоимость</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+        {% endif %}
+                        <tr>
+                            <td>{{ order.name }}</td>
+                            <td>{{ order.price|number_format(0, '', ' ') }} <i class="fa fa-rub" aria-hidden="true"></i></td>
+                        </tr>
+        {% if loop.last %}
+                        <tr>
+                            <td></td>
+                            <td><span class="pull-right"><b>Итого: {{ order.amount|number_format(0, '', ' ') }} <i class="fa fa-rub" aria-hidden="true"></i></b></span></td>
+                        </tr>
+        {% endif %}
+    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+{% endfor %}

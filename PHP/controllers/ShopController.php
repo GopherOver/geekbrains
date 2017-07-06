@@ -10,7 +10,8 @@ class ShopController extends BaseController
     public function actionIndex()
     {
         $data = ['products' => (new ProductModel())->findAll()];
-        $this->render("shop/index.tmpl", $data);
+
+        $this->render("shop/index", $data);
     }
 
     public function actionViewProduct($id)
@@ -19,7 +20,7 @@ class ShopController extends BaseController
         if (!$data['product'])
             $this->renderError();
         else
-            $this->render("shop/view/product.tmpl", $data);
+            $this->render("shop/view/product", $data);
     }
 
 }

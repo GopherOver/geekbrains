@@ -8,16 +8,20 @@
             <div class="col-md-4">
                 <div class="carousel slide" id="carousel-example-generic" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        {% for image in images %}
-                            <li data-target="#carousel-example-generic" data-slide-to="{{ image.id - 1 }}" class=""></li>
+                        {% for prop in properties %}
+                            {% if prop.type == 0 %}
+                            <li data-target="#carousel-example-generic" data-slide-to="{{ loop.index }}" class="{{ loop.first ? "active" : "" }}"></li>
+                            {% endif %}
                         {% endfor %}
                     </ol>
 
                     <div class="carousel-inner" role="listbox">
-                        {% for image in images %}
+                        {% for prop in properties %}
+                            {% if prop.type == 0 %}
                             <div class="item {{ loop.first ? "active" : "" }}">
-                                <img alt="{{ image.src }}" src="/img/{{ image.src }}" data-holder-rendered="true">
+                                <img alt="{{ prop.value }}" src="/img/{{ prop.value }}" data-holder-rendered="true">
                             </div>
+                            {% endif %}
                         {% endfor %}
                     </div>
 

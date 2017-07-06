@@ -12,6 +12,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/shop">Магазин</a></li>
+                {% if data.user.is_admin %}
+                <li><a href="/admin">Admin</a></li>
+                {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
             {% if data.user.email == "" %}

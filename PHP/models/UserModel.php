@@ -3,9 +3,48 @@
 namespace models;
 
 
-class UserModel extends BaseModel
+class UserModel extends DatabaseModel
 {
-    public function getUserData()
+    public function getUserOrders($userId = NULL)
+    {
+        if (empty($userId))
+        {
+            $user = $this->getUser();
+            $userId = $user['id'];
+        }
+
+        $query = '
+                SELECT
+                    c.id,
+                    o.id,
+                    c.product_id,
+                    o.created_at,
+                    o.status,
+                    o.amount,
+                    os.status_name,
+                    os.css,
+                    p.name,
+                    p.price
+                FROM
+                    `orders` o
+                LEFT JOIN `carts` c ON
+                    c.order_id = o.id
+                LEFT JOIN `products` p ON
+                    p.id = c.product_id
+                LEFT JOIN `orders_statuses` os ON
+                    o.status = os.id
+                WHERE
+                    o.user_id = :user_id
+                ORDER BY
+                    o.created_at
+                DESC';
+
+        $result = $this->execute($query, ['user_id' => $userId], true);
+
+        return $result;
+    }
+
+    public function getUser()
     {
         if (!$this->isAuth())
         {
@@ -15,7 +54,7 @@ class UserModel extends BaseModel
         if (isset($_SESSION["email"]))
         {
             $user = $this->getUserByEmail($_SESSION["email"]);
-            return ['user' => $user];
+            return $user;
         }
     }
 
@@ -34,18 +73,10 @@ class UserModel extends BaseModel
 
         $hash = $this->generate_hash($password);
 
-        $query = 'INSERT
-            INTO
-                `user`(`id`, `email`, `hash`, `status`)
-            VALUES(NULL, :email, :hash, :status);';
-
-        $props = [
+        return $this->insert([
             "email" => $email,
-            "hash" => $hash,
-            "status" => 1
-        ];
-
-        return $this->execute($query, $props);
+            "hash" => $hash
+        ]);
     }
 
     private function userAuth($email, $password)
@@ -56,9 +87,7 @@ class UserModel extends BaseModel
             return ['Email или пароль не верны!'];
         }
 
-        $hash = $this->getUserHashByEmail($email);
-
-        if (!$this->validate_pw($password, $hash['hash']))
+        if (!$this->validate_pw($password, $exist['hash']))
         {
             return ['Email или пароль не верны!'];
         }
@@ -69,35 +98,11 @@ class UserModel extends BaseModel
         return true;
     }
 
-    private function getUserHashByEmail($email)
-    {
-        $query = 'SELECT
-                `hash`
-            FROM
-                `user`
-            WHERE
-                `email` = :email;';
-
-        $props = [
-            "email" => $email
-        ];
-
-        return $this->execute($query, $props);
-    }
-
     public function getUserByEmail($email)
     {
-        $query = 'SELECT
-                *
-            FROM
-                `user`
-            WHERE
-                `email` = :email';
-        $props = [
-            "email" => $email
-        ];
-
-        return $this->execute($query, $props);
+        return $this->findOne([
+            'email' => $email
+        ]);
     }
 
 
@@ -125,10 +130,10 @@ class UserModel extends BaseModel
 
     public function doRegister()
     {
-        $email = trim($_POST['email']);
-        $password = trim($_POST['password']);
-        $password2 = trim($_POST['password2']);
-        $errors = [];
+        $email      = trim($_POST['email']);
+        $password   = trim($_POST['password']);
+        $password2  = trim($_POST['password2']);
+        $errors     = [];
 
         if (empty($email) || empty($password) || empty($password2))
         {

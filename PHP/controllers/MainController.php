@@ -7,6 +7,6 @@ class MainController extends BaseController
 {
     public function actionIndex()
     {
-        $this->render("main/index.tmpl", []);
+        $this->render("main/index", []);
     }
 }
