@@ -3,7 +3,8 @@
 namespace models;
 
 
-class OrderStatusModel extends DatabaseModel
+class OrderStatusModel extends BaseModel
 {
+    const TABLE_NAME = 'orders_statuses';
 
 }

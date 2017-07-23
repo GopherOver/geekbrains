@@ -1,32 +1,75 @@
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Сумма</th>
-        <th>Пользователь</th>
-        <th>Дата</th>
-        <th>Статус</th>
-    </tr>
-    </thead>
-    <tbody>
-{% for order in orders %}
-        <tr>
-            <td>{{ order.id }}</td>
-            <td>{{ order.amount|number_format(0, '', ' ') }} <i class="fa fa-rub" aria-hidden="true"></i></td>
-            <td>{{ order.email }}</td>
-            <td>{{ order.created_at }}</td>
-            <td>
-                <select class="form-control" name="{{ order.id }}">
-                    {% for status in statuses %}
-                        {% if order.status_name == status.status_name %}
-                        <option id="{{ status.id }}" selected>{{ status.status_name }}</option>
-                        {% else %}
-                        <option id="{{ status.id }}">{{ status.status_name }}</option>
-                        {% endif %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Brand (Back to site)</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Dashboard</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Orders <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="">Nav item</a></li>
+                <li><a href="">Nav item again</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="">Another nav item</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <h2>Orders list</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date</th>
+                        <th>User</th>
+                        <th>SUM</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order in data.orders %}
+                        {% for status in data.statuses if order.status_name == status.status_name%}
+                            <tr class="{{ status.css }}">
+                        {% endfor %}
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.created_at }}</td>
+                        <td>{{ order.email }}</td>
+                            <td>{{ order.amount|number_format(0, '', ' ') }} <i class="fa fa-rub" aria-hidden="true"></i></td>
+                            <td>
+                                <select class="form-control" name="{{ order.id }}">
+                                    {% for status in data.statuses %}
+                                        {% if order.status_name == status.status_name %}
+                                            <option id="{{ status.id }}" selected>{{ status.status_name }}</option>
+                                        {% else %}
+                                            <option id="{{ status.id }}">{{ status.status_name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
                     {% endfor %}
-                </select>
-            </td>
-        </tr>
-{% endfor %}
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

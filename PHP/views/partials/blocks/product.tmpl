@@ -1,0 +1,18 @@
+<div class="product-box">
+    <div class="product-box-img">
+        <img src="/img/{{ product.img_src }}">
+        <div class="overlay">
+            {% if user.is_auth %}
+            <div class="text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</div>
+            {% else %}
+            <a href="/user/login"><div class="text"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</div></a>
+            {% endif %}
+        </div>
+    </div>
+    <a href="/shop/view/product/{{ product.id }}">
+        <div class="product-text">
+            <p>{{ product.name }}</p>
+            <p class="pink"><i class="fa fa-usd" aria-hidden="true"></i>{{ product.price|number_format(2, '.', ',') }}</p>
+        </div>
+    </a>
+</div>

@@ -1,0 +1,96 @@
+{% include "/partials/blocks/breadcrumbs-block.tmpl" with data %}
+
+<section id="product-slider">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner wrapper" role="listbox">
+            {% for img in data.product.img  %}
+                <div class="item {{ loop.first ? "active" : "" }}">
+                    <img alt="{{ img.value }}" src="/img/{{ img.value }}" data-holder-rendered="true">
+                </div>
+            {% endfor %}
+        </div>
+
+        <a href="#carousel-example-generic" class="left carousel-control" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a> <a href="#carousel-example-generic" class="right carousel-control" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</section>
+
+<section id="product-info">
+    <div class="wrapper product-info">
+        <div class="slider-content">
+            <div class="category pink">{{ data.product.category_name|upper }}</div>
+            <p class="slider-item-title">{{ data.product.name }}</p>
+            <p class="slider-item-content">{{ data.product.description }}</p>
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    {% for material in data.product.material %}
+                        {% if loop.first %}
+                            MATERIAL: {{ material.value }}
+                        {% else %}
+                            , {{ material.value }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-md-6 text-right">
+                    {% for designer in data.product.designer %}
+                        {% if loop.first %}
+                            DESIGNER: {{ designer.value }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-12 price pink">${{ data.product.price }}</div>
+            <div class="wrapper">
+                <div class="row choose-box">
+                    <div class="col-md-4">
+                        <p class="text-left">CHOOSE COLOR</p>
+                        <select class="form-control">
+                            {% for color in data.product.color %}
+                                <option> {{ color.value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-left">CHOOSE SIZE</p>
+                        <select class="form-control">
+                            {% for size in data.product.size %}
+                                <option>{{ size.value }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-left">QUANTITY</p>
+                        <input type="text" class="form-control" placeholder="2">
+                    </div>
+                </div>
+                {% if user.is_auth %}
+                <button class="add-to-cart pink">Add to cart</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if data.product.related|length %}
+<section id="products">
+    <div class="wrapper">
+        <h3>YOU MAY LIKE ALSO</h3>
+
+        <div class="row{% if data.product.related|length % 4 %} center{% endif %}">
+            {% for product in data.product.related %}
+                <div class="col-md-3{{ data.product.related|length % 4 and loop.index % 4 ? ' centered' : '' }}">
+                    {% include '/partials/blocks/product.tmpl' with product %}
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
+{% endif %}
+
+{% include "/partials/blocks/subscribe-block.tmpl" %}

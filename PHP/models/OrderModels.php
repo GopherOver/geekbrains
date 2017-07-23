@@ -4,8 +4,10 @@
 namespace models;
 
 
-class OrderModels extends DatabaseModel
+class OrderModels extends BaseModel
 {
+    const TABLE_NAME = 'orders';
+
     public function getAllOrdersWithUsers()
     {
         $query = '

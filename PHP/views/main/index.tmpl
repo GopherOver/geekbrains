@@ -1,1 +1,44 @@
-<h1>Главная</h1>
+<section id="slider">
+    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+                <img src="/img/slider.png" alt="Slider">
+                <div class="wrapper">
+                    <div class="slider-text vertical-center">
+                        <blockquote class="panel-danger">
+                            <p>THE BRAND</p>
+                            <p>OF LUXERIOUS <span class="pink">FASHION</span></p>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include  "/partials/blocks/category-block.tmpl" with data %}
+
+<section id="products">
+    <div class="wrapper">
+        <div class="text-center">
+            <h3>Featured Items</h3>
+            <p>Shop for items based on what we featured in this week</p>
+        </div>
+
+        <div class="row">
+            {% for product in data.products %}
+                <div class="col-md-3">
+                    {% include  "/partials/blocks/product.tmpl" with product %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-danger">Browse All Products -></button>
+        </div>
+    </div>
+</section>
+
+{% include "/partials/blocks/offer-block.tmpl" %}
+
+{% include "/partials/blocks/subscribe-block.tmpl" %}

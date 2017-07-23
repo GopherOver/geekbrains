@@ -1,0 +1,66 @@
+<header class="header hidden-xs">
+    <div class="wrapper vertical-center">
+        <div class="col-xs-12 col-md-3">
+            <a href="/" class="brand">
+            {% include "/partials/blocks/logo.tmpl" %}
+            </a>
+        </div>
+        <div class="col-xs-12 col-md-5">
+            <div class="row">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle browse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-4 text-right">
+            {% if user.is_auth %}
+               <!--{% for cart in user.cart.cart_items %}
+                   {{ cart.name }}
+                {% endfor %}-->
+                    <div class="vertical-center header-right">
+                        {% if user.cart.cart_items|length  %}
+                            <div class="cart" amount="{{ user.cart.cart_items|length}}">
+                        {% endif %}
+                            <a href="/user/cart">
+                                <i class="fa fa-shopping-basket fa-2x cart" aria-hidden="true"></i>
+                            </a>
+                        {% if user.cart.cart_items|length  %}
+                            </div>
+                        {% endif %}
+
+                    <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        My Account
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dLabel">
+                        {% if user.is_admin %}
+                            <li><a href="/admin">Admin</a></li>
+                            <li role="separator" class="divider"></li>
+                        {% endif %}
+                        <li><a href="/user">My orders</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/user/logout">Logout</a></li>
+                    </ul>
+                    </div>
+            {% else %}
+                <div class="pull-right">
+                    <a href="/user/register" class="btn btn-danger">Register</a>
+                    <a href="/user/login" class="btn btn-danger">Login</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</header>

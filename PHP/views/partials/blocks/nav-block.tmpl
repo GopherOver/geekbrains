@@ -1,0 +1,54 @@
+<nav class="navbar" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand visible-xs" href="/">Brand</a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <form class="navbar-form visible-xs">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-default dropdown-toggle browse" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                    </ul>
+                </div>
+                <input type="text" class="form-control" placeholder="Search for...">
+            </div>
+        </form>
+        <ul class="nav navbar-nav menu">
+            {% for parent in menu %}
+                {% for child in parent.childs %}
+                    {% if loop.first %}
+                        {% if data.product.category_id == child.id %}
+                            <li class="dropdown active">
+                        {% else %}
+                             <li class="dropdown {{ child.active ? "active" : "" }}">
+                                <a href="#" class="dropdown-toggle menu" data-toggle="dropdown">{{ parent.menu_name|upper }}</a>
+                                <ul class="dropdown-menu">
+                        {% endif %}
+                    {% endif %}
+                            <li><a href="{{ child.url }}">{{ child.menu_name }}</a></li>
+                    {% if loop.last %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                {% else %}
+                    {% if data.product.category_id == parent.id %}
+                        <li class="active"><a href="{{ parent.url }}" class="menu">{{ parent.menu_name|upper }}</a></li>
+                    {% else %}
+                        <li class="{{ parent.active ? "active" : "" }}"><a href="{{ parent.url }}" class="menu">{{ parent.menu_name|upper }}</a></li>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+</nav>

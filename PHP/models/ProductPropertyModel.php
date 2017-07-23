@@ -3,7 +3,8 @@
 namespace models;
 
 
-class ProductPropertyModel extends DatabaseModel
+class ProductPropertyModel extends BaseModel
 {
 
+    const TABLE_NAME = 'products_properties';
 }

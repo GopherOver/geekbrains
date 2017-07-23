@@ -22,7 +22,7 @@ class AdminController extends BaseController
         $orders = (new OrderModels())->getAllOrdersWithUsers();
         $statuses = (new OrderStatusModel())->findAll();
 
-        $this->render("admin/index", ['orders' => $orders, 'statuses' => $statuses]);
+        $this->render("admin/index", ['orders' => $orders, 'statuses' => $statuses], 'layouts/admin');
 
     }
 
@@ -38,9 +38,15 @@ class AdminController extends BaseController
                 $statusId   = $data['status_id'];
 
                 (new OrderModels())->setOrderStatus($orderId, $statusId);
-                //echo $statusId;
-            }
 
+                switch ($statusId)
+                {
+                    case 1: echo "danger";  break;
+                    case 2: echo "warning"; break;
+                    case 3: echo "info";    break;
+                    case 4: echo "success"; break;
+                }
+            }
 
         }
     }

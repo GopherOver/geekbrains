@@ -3,10 +3,17 @@
 namespace controllers;
 
 
+use models\ProductCategoryModel;
+use models\ProductModel;
+
 class MainController extends BaseController
 {
     public function actionIndex()
     {
-        $this->render("main/index", []);
+        $data = [
+            'title' => 'Home',
+            'products' => ProductModel::findAll()
+        ];
+        $this->render("main/index", $data);
     }
 }

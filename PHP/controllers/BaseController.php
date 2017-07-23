@@ -2,28 +2,27 @@
 
 namespace controllers;
 
-
+use models\ProductCategoryModel;
 use models\UserModel;
 
 class BaseController
 {
-    public function render($template = "index.tmpl", array $data)
+    public function render($template = "index.tmpl", array $data, $layout = 'layouts/main')
     {
         $twig = new \Twig_Environment(new \Twig_Loader_Filesystem('../views/'), array());
         $twig->addExtension(new \Twig_Extensions_Extension_Text());
 
-        $userData = ['user' => (new UserModel())->getUser()];
-        $array = array_merge($data, $userData);
-
-        echo $twig->render('layout/main.tmpl', array(
-            "template" => $template . '.tmpl',
-            "data" => $array
+        echo $twig->render($layout . '.tmpl', array(
+            'template' => $template . '.tmpl',
+            'menu' => (new ProductCategoryModel())->getMenu(),
+            'user' => (new UserModel())->getUser(),
+            'data' => $data
         ));
     }
 
     public function renderError()
     {
-        $this->render("errors/404.tmpl", []);
+        $this->render("errors/404", []);
     }
 
     public function actionError()

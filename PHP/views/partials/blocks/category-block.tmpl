@@ -1,0 +1,40 @@
+<section id="category">
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="pull-right">
+                    {% for cat in menu if cat.img_src %}
+                        {% if loop.index is odd %}
+                            <a href="{{ cat.url }}">
+                                <div class="category">
+                                    <div class="category-text under">
+                                        <p class="category-col-text-title">{{ cat.slug|upper }}</p>
+                                        <p class="category-col-text-comment pink">{{ cat.title|upper }}</p>
+                                    </div>
+                                    <img src="/img/{{ cat.img_src }}">
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="pull-left">
+                    {% for cat in menu if cat.img_src %}
+                        {% if loop.index is even %}
+                            <a href="{{ cat.url }}">
+                                <div class="category">
+                                    <div class="category-text under">
+                                        <p class="category-col-text-title">{{ cat.slug|upper }}</p>
+                                        <p class="category-col-text-comment pink">{{ cat.title|upper }}</p>
+                                    </div>
+                                    <img src="/img/{{ cat.img_src }}">
+                                </div>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

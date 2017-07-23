@@ -1,0 +1,49 @@
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!--Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $('ul.nav li.dropdown').hover(function() {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeIn(500);
+    }, function() {
+        $(this).find('.dropdown-menu').stop(true, true).delay(200).fadeOut(500);
+    });
+
+    $( "select" ).change(function() {
+        var obj = this;
+        var orderId = this.name;
+        var statusId = this.options[this.selectedIndex].id;
+        var dataString = { "order_id": orderId, "status_id" : statusId };
+
+        $.ajax({
+            url: "/admin/order/statusChange",
+            method: "POST",
+            dataType: "html",
+            data: { data: JSON.stringify(dataString) },
+            success: function (response) {
+                var tr = $(obj).closest('tr');
+                var className = $(tr).attr('class');
+                $(tr).removeClass(className);
+                $(tr).addClass(response);
+            },
+            error: function (error) {
+                console.log('error:', error);
+            }
+        });
+    });
+
+    $( function() {
+        $( "#slider-range" ).slider({
+            range: true,
+            min: 52,
+            max: 400,
+            values: [ 100, 270 ],
+            slide: function( event, ui ) {
+                $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+            }
+        });
+        $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+            " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+    } );
+</script>

@@ -20,17 +20,26 @@ function getConfig()
          * $1,$2,$3... - номера параметров
          */
         'routes' => [
-            '/'                             => 'main/index', // главная страница
-            '/user/register'                => 'user/register', // страница регистрации
-            '/user/login'                   => 'user/login', // страница входа
-            '/user/logout'                  => 'user/logout',
-            '/user'                         => 'user/index', // страница "личного кабинета"
-            '/shop/view/product/:num'       => 'shop/viewProduct/$1',
-            '/shop'                         => 'shop/index',
+            '/'                             => 'main/index',            // главная страница
 
-            '/admin/order/statusChange'     => 'admin/statusChange',
-            '/admin'                        => 'admin/index',
-            '/:any'                         => 'main/error' // все остальные запросы обрабатываются здесь
+            // Пользователь
+            '/user/register'                => 'user/register',         // страница регистрации
+            '/user/login'                   => 'user/login',            // страница входа
+            '/user/logout'                  => 'user/logout',           // экшн выхода
+            '/user/cart/order'              => 'user/cartOrder',        // страница оформления заказа
+            '/user/cart'                    => 'user/cartIndex',        // страница корзины
+            '/user'                         => 'user/index',            // страница "личного кабинета"
+
+            // Магазин
+            '/shop/view/product/:num'       => 'shop/viewProduct/$1',   // просмотр товара
+            '/shop/view/category/:num'      => 'shop/viewCategory/$1',  // товары конкретной категории
+            '/shop'                         => 'shop/index',            // все товары
+
+            // Администратор
+            '/admin/order/statusChange'     => 'admin/statusChange',    // экшн смены статуса заказа
+            '/admin'                        => 'admin/index',           // administrator's page
+
+            '/:any'                         => 'main/error'             // все остальные запросы обрабатываются здесь
         ]
     ];
 }
