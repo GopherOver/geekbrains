@@ -24,15 +24,4 @@ class ShopController extends BaseController
             $this->render("shop/product", $data);
     }
 
-    public function actionViewCategory($id)
-    {
-        $data = ProductModel::getProductsByCategoryID($id);
-
-
-        if (empty($data))
-            $this->renderError();
-        else
-            $this->render("shop/category", $data);
-    }
-
 }

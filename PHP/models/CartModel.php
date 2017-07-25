@@ -12,46 +12,105 @@ class CartModel extends BaseModel
         if (!empty($userId)) {
             $query = '
                 SELECT
+                    c.id as cart_id,
                     p.id,
                     p.name,
                     p.category_id,
-                    p.description,
                     p.img_src,
-                    pp.value,
-                    pp.type,
                     c.color,
                     c.size,
                     c.product_price,
-                    c.amount,
-                    pc.menu_name AS category_name,
-                    pc.url AS category_url,
-                    ppt.name AS type_name
+                    c.amount
                 FROM
                     `carts` c
                 INNER JOIN `products` p ON
                     p.id = c.product_id
-                INNER JOIN `products_properties` pp ON
-                    pp.product_id = p.id
-                INNER JOIN `products_categories` pc ON
-                    pc.id = p.category_id
-                INNER JOIN `products_properties_types` ppt ON
-                    ppt.id = pp.type
                 WHERE
-                    c.user_id = :user_id AND c.order_id IS NULL
+                    c.user_id = :user_id AND c.order_id = 0
                     ';
 
             $result = self::execute($query, ['user_id' => $userId], true);
 
             $data = [];
+            $amount = 0;
+            $total = 0;
 
-            foreach ($result as $key => $col) {
-                if (empty($data[$col['id']]))
-                    $data[$col['id']] = $col;
+            foreach ($result as $key => $col)
+            {
+                $data[$col['id']] = $col;
+                $data[$col['id']]['subtotal'] = $col['product_price'] * $col['amount'];
+                $total += $data[$col['id']]['subtotal'];
+                $amount++;
             }
 
-            $data = ['cart_items' => array_values($data)];
+            $data = [
+                'cart_items' => array_values($data),
+                'cart_amount' => $amount,
+                'cart_total' => $total
+            ];
+
             return $data;
         } else
             return false;
+    }
+
+    public static function addProductToUserCart($userId, $product)
+    {
+        return self::insert([
+            'user_id' => $userId,
+            'product_id' => $product['id'],
+            'size' => $product['size'],
+            'color' => $product['color'],
+            'amount' => $product['amount'],
+            'product_price' => $product['product_price']
+        ]);
+    }
+
+    public static function removeProductFromUserCart($userId, $productId)
+    {
+        $exist = self::findAll([
+            'user_id' => $userId,
+            'product_id' => $productId,
+            'order_id' => '0'
+        ]);
+
+        if (empty($exist))
+            return false;
+
+        $arr = [];
+
+        foreach ($exist as $key => $ids)
+            $arr = array_merge($arr, [$ids['id']]);
+
+        $query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id in (' . implode(',', $arr) . ') AND order_id = 0';
+
+        return self::execute($query, []);
+    }
+
+    public static function clearUserCart($userId)
+    {
+        $cartProducts = self::findAll([
+            'user_id' => $userId,
+            'order_id' => '0'
+        ]);
+
+        if (empty($cartProducts))
+            return false;
+
+        $arr = [];
+
+        foreach ($cartProducts as $key => $ids)
+            $arr = array_merge($arr, [$ids['id']]);
+
+        $query = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE id in (' . implode(',', $arr) . ') AND order_id = 0';
+
+        return self::execute($query, []);
+    }
+
+    public static function changeQuantityProduct($cartId, $amount)
+    {
+        $query = 'UPDATE ' . self::TABLE_NAME . ' SET amount = ' . (int)($amount) . ' WHERE id = ' . (int)($cartId);
+
+        return self::execute($query, []);
     }
 }

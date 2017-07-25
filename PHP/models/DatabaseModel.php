@@ -115,6 +115,16 @@ abstract class DatabaseModel
         return self::execute($query, $props);
     }
 
+    public static function purge(array $where = [])
+    {
+        if (!empty($where))
+            $where = self::parseWhere($where);
+
+        $query = 'DELETE FROM ' . static::TABLE_NAME . $where;
+
+        return self::execute($query, []);
+    }
+
     /**
      * @param $query
      * @param $props

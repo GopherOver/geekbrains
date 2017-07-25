@@ -32,8 +32,13 @@ function getConfig()
 
             // Магазин
             '/shop/view/product/:num'       => 'shop/viewProduct/$1',   // просмотр товара
-            '/shop/view/category/:num'      => 'shop/viewCategory/$1',  // товары конкретной категории
             '/shop'                         => 'shop/index',            // все товары
+
+            // Корзина
+            '/cart/add'                     => '/user/addProductToUserCart', // Добавление товара в корзину
+            '/cart/del'                     => '/user/removeProductFromUserCart', // Удаление товара из корзины
+            '/cart/change'                  => '/user/changeQuantityProduct', // Удаление товара из корзины
+            '/cart/clear'                   => '/user/clearUserCart',   // Очистка корзины
 
             // Администратор
             '/admin/order/statusChange'     => 'admin/statusChange',    // экшн смены статуса заказа

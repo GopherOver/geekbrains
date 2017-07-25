@@ -91,4 +91,98 @@ class UserController extends BaseController
     {
         $this->render("user/cart/order", [], 'layouts/user');
     }
+
+
+    public function actionAddProductToUserCart()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            if (!empty($_POST['data'])) {
+                $user = UserModel::getUser();
+
+                if (empty($user))
+                    return;
+
+                $product = json_decode($_POST['data'], true);
+
+                if (empty($product))
+                    return;
+
+                if (empty($product['size']))
+                    $product['size'] = 'M';
+
+                if (empty($product['color']))
+                    $product['color'] = 'black';
+
+                if (empty($product['amount']))
+                    $product['amount'] = '1';
+
+                if (empty($product['product_price']))
+                    $product['product_price'] = '52';
+
+                CartModel::addProductToUserCart($user['id'], $product);
+
+                echo 'success';
+            }
+        }
+    }
+
+    public function actionRemoveProductFromUserCart()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            if (!empty($_POST['data'])) {
+                $user = UserModel::getUser();
+
+                if (empty($user))
+                    return;
+
+                $product = json_decode($_POST['data'], true);
+                if (empty($product))
+                    return;
+
+                CartModel::removeProductFromUserCart($user['id'], $product['id']);
+
+                echo 'success';
+            }
+        }
+    }
+
+    public function actionClearUserCart()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $user = UserModel::getUser();
+
+            if (empty($user))
+                return;
+
+            CartModel::clearUserCart($user['id']);
+
+            echo 'success';
+        }
+    }
+
+    public function actionChangeQuantityProduct()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $user = UserModel::getUser();
+
+            if (empty($user))
+                return;
+
+            $data = json_decode($_POST['data'], true);
+
+            if (empty($data))
+                return;
+
+            if (empty($data['cart_id']) || empty($data['amount']))
+                return;
+
+            CartModel::changeQuantityProduct($data['cart_id'], $data['amount']);
+
+            echo 'success';
+        }
+    }
 }

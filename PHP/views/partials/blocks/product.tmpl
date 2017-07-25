@@ -3,9 +3,9 @@
         <img src="/img/{{ product.img_src }}">
         <div class="overlay">
             {% if user.is_auth %}
-            <div class="text"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</div>
+            <div class="cart-add" data-content="{{ product.id }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</div>
             {% else %}
-            <a href="/user/login"><div class="text"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</div></a>
+            <a href="/user/login"><div class="cart-add"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</div></a>
             {% endif %}
         </div>
     </div>
