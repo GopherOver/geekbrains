@@ -6,10 +6,21 @@ namespace core;
 use PDO,
     PHPUnit\Runner\Exception;
 
+/**
+ * Class DataBase
+ * @package core
+ */
 class DataBase
 {
+    /**
+     * @var PDO
+     */
     private $pdo;
 
+    /**
+     * DataBase constructor.
+     * @param string $connection
+     */
     function __construct(string $connection = 'default')
     {
         try {
@@ -36,6 +47,13 @@ class DataBase
 
     }
 
+    /**
+     * Выполнение запроса
+     * @param string $query
+     * @param array $props
+     * @param bool $fetchAll
+     * @return array|bool|mixed
+     */
     public function execute(string $query, array $props, bool $fetchAll = false)
     {
         try {

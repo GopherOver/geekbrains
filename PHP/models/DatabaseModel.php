@@ -12,6 +12,11 @@ use core\Application;
 abstract class DatabaseModel
 {
 
+    /**
+     * Выстраиваем цепочку WHERE
+     * @param array $where
+     * @return string
+     */
     private static function parseWhere(array $where)
     {
         $result = ' WHERE';
@@ -21,13 +26,19 @@ abstract class DatabaseModel
             if ($current > 0)
                 $result .= ' AND';
 
-            $result .= ' `' . $col . '` = "' . $val . '"';
+            $result .= ' ' . $col . ' = "' . $val . '"';
             $current++;
         }
 
         return $result;
     }
 
+    /**
+     * Выстраиваем цепочку ORDER BY
+     * @param array $orderBy
+     * @param $desc
+     * @return bool|string
+     */
     private static function parseOrderBy(array $orderBy, $desc)
     {
         $result = ' ORDER BY';
@@ -46,6 +57,14 @@ abstract class DatabaseModel
         return $result;
     }
 
+    /**
+     * Ищем все поля, удовлетворяющие запросу
+     * @param array $where
+     * @param int $limit
+     * @param array $orderBy
+     * @param bool $desc
+     * @return array|bool|mixed
+     */
     public static function findAll(array $where = [], $limit = 10, $orderBy = [], $desc = true)
     {
         $query = 'SELECT * FROM ' . static::TABLE_NAME;
@@ -61,6 +80,11 @@ abstract class DatabaseModel
         return self::execute($query, [], true);
     }
 
+    /**
+     * Ищем 1 позицию, удовлетворяющую запросу
+     * @param array $where
+     * @return array|bool|mixed
+     */
     public static function findOne(array $where = [])
     {
         $query = 'SELECT * FROM ' . static::TABLE_NAME;
@@ -74,6 +98,7 @@ abstract class DatabaseModel
     }
 
     /**
+     * Ищем по ID
      * @param $id
      * @return array|bool|mixed
      */
@@ -89,6 +114,7 @@ abstract class DatabaseModel
     }
 
     /**
+     * Запрос на добавление
      * @param array $data
      * @return array|bool|mixed
      */
@@ -115,6 +141,11 @@ abstract class DatabaseModel
         return self::execute($query, $props);
     }
 
+    /**
+     * Запрос на удаление
+     * @param array $where
+     * @return array|bool|mixed
+     */
     public static function purge(array $where = [])
     {
         if (!empty($where))
@@ -126,6 +157,7 @@ abstract class DatabaseModel
     }
 
     /**
+     * Выполнение запроса
      * @param $query
      * @param $props
      * @param bool $fetchAll

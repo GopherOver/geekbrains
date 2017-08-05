@@ -3,9 +3,21 @@
 namespace models;
 
 
+/**
+ * Class ProductCategoryModel
+ * @package models
+ */
 class ProductCategoryModel extends BaseModel
 {
+    /**
+     * Имя таблицы
+     */
     const TABLE_NAME = 'products_categories';
+
+    /**
+     * Возвращаем дерево меню
+     * @return array
+     */
     public function getMenu()
     {
         $data = $this->findAll();

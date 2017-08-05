@@ -4,11 +4,22 @@
 namespace models;
 
 
+/**
+ * Class OrderModels
+ * @package models
+ */
 class OrderModels extends BaseModel
 {
+    /**
+     * Имя таблицы
+     */
     const TABLE_NAME = 'orders';
 
-    public function getAllOrdersWithUsers()
+    /**
+     * Возвращаем заказы и пользователей
+     * @return array|bool|mixed
+     */
+    public static function getAllOrdersWithUsers()
     {
         $query = '
                 SELECT
@@ -20,7 +31,7 @@ class OrderModels extends BaseModel
                     os.css,
                     u.email
                 FROM
-                    `orders` o
+                    `' . self::TABLE_NAME . '` o
                 LEFT JOIN `orders_statuses` os ON
                     o.status = os.id
                 LEFT JOIN `users` u ON
@@ -30,12 +41,16 @@ class OrderModels extends BaseModel
                 DESC
                 LIMIT 10';
 
-        $result = $this->execute($query, [], true);
-
+        $result = self::execute($query, [], true);
         return $result;
     }
 
-    public function setOrderStatus($orderId, $statusId)
+    /**
+     * Устанавливаем статус заказа
+     * @param $orderId
+     * @param $statusId
+     */
+    public static function setOrderStatus($orderId, $statusId)
     {
         $query = '
             UPDATE
@@ -49,7 +64,6 @@ class OrderModels extends BaseModel
             'status_id' => $statusId,
             'order_id' => $orderId,
         ];
-
-        $this->execute($query, $props);
+        self::execute($query, $props);
     }
 }

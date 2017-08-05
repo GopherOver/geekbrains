@@ -27,19 +27,8 @@
         </div>
         <div class="col-xs-12 col-md-4 text-right">
             {% if user.is_auth %}
-               <!--{% for cart in user.cart.cart_items %}
-                   {{ cart.name }}
-                {% endfor %}-->
                     <div class="vertical-center header-right">
-                        {% if user.cart.cart_amount  %}
-                            <div class="cart" amount="{{ user.cart.cart_amount > 9 ? '9+' : user.cart.cart_amount }}">
-                        {% endif %}
-                            <a href="/user/cart">
-                                <i class="fa fa-shopping-basket fa-2x cart" aria-hidden="true"></i>
-                            </a>
-                        {% if user.cart.cart_items|length  %}
-                            </div>
-                        {% endif %}
+                        <div id="cart"></div>
 
                     <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         My Account
@@ -50,7 +39,7 @@
                             <li><a href="/admin">Admin</a></li>
                             <li role="separator" class="divider"></li>
                         {% endif %}
-                        <li><a href="/user">My orders</a></li>
+                        <li><a href="/user/cart">My orders</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="/user/logout">Logout</a></li>
                     </ul>

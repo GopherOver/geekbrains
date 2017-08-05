@@ -727,6 +727,7 @@ a>.cart:hover {
 
 .cart-actions {
     margin-bottom: 100px;
+    transition: opaticy(0);
 }
 .cart-buttons {
     margin-top: 30px;

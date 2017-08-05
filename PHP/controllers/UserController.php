@@ -5,8 +5,15 @@ namespace controllers;
 use models\CartModel;
 use models\UserModel;
 
+/**
+ * Class UserController
+ * @package controllers
+ */
 class UserController extends BaseController
 {
+    /**
+     * TODO
+     */
     public function actionIndex()
     {
         if (!UserModel::isAuth())
@@ -26,6 +33,9 @@ class UserController extends BaseController
         $this->render("user/index", $data, 'layouts/user');
     }
 
+    /**
+     * Страница входа на сайт
+     */
     public function actionLogin()
     {
         if (UserModel::isAuth())
@@ -41,19 +51,25 @@ class UserController extends BaseController
             if (is_array($errors))
                 $this->render("user/login", ['errors' => $errors], 'layouts/user');
             else if ($errors)
-                header("Location: /user");
+                header("Location: /user/cart");
         }
         else {
             $this->render("user/login", [], 'layouts/user');
         }
     }
 
+    /**
+     * Выходим из аккаунта
+     */
     public function actionLogout()
     {
         UserModel::doLogout();
         header("Location: /");
     }
 
+    /**
+     * Страница регистрации пользователя
+     */
     public function actionRegister()
     {
         if (UserModel::isAuth())
@@ -76,6 +92,9 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * Страница корзины пользователя
+     */
     public function actionCartIndex()
     {
         if (!UserModel::isAuth())
@@ -84,105 +103,18 @@ class UserController extends BaseController
             return;
         }
 
+        $user = UserModel::getUser();
+
+        CartModel::getCartByUserId($user['id']);
+
         $this->render("user/cart/index", [], 'layouts/user');
     }
 
+    /**
+     * Страница оформления заказа
+     */
     public function actionCartOrder()
     {
         $this->render("user/cart/order", [], 'layouts/user');
-    }
-
-
-    public function actionAddProductToUserCart()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
-            if (!empty($_POST['data'])) {
-                $user = UserModel::getUser();
-
-                if (empty($user))
-                    return;
-
-                $product = json_decode($_POST['data'], true);
-
-                if (empty($product))
-                    return;
-
-                if (empty($product['size']))
-                    $product['size'] = 'M';
-
-                if (empty($product['color']))
-                    $product['color'] = 'black';
-
-                if (empty($product['amount']))
-                    $product['amount'] = '1';
-
-                if (empty($product['product_price']))
-                    $product['product_price'] = '52';
-
-                CartModel::addProductToUserCart($user['id'], $product);
-
-                echo 'success';
-            }
-        }
-    }
-
-    public function actionRemoveProductFromUserCart()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
-            if (!empty($_POST['data'])) {
-                $user = UserModel::getUser();
-
-                if (empty($user))
-                    return;
-
-                $product = json_decode($_POST['data'], true);
-                if (empty($product))
-                    return;
-
-                CartModel::removeProductFromUserCart($user['id'], $product['id']);
-
-                echo 'success';
-            }
-        }
-    }
-
-    public function actionClearUserCart()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
-            $user = UserModel::getUser();
-
-            if (empty($user))
-                return;
-
-            CartModel::clearUserCart($user['id']);
-
-            echo 'success';
-        }
-    }
-
-    public function actionChangeQuantityProduct()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST')
-        {
-            $user = UserModel::getUser();
-
-            if (empty($user))
-                return;
-
-            $data = json_decode($_POST['data'], true);
-
-            if (empty($data))
-                return;
-
-            if (empty($data['cart_id']) || empty($data['amount']))
-                return;
-
-            CartModel::changeQuantityProduct($data['cart_id'], $data['amount']);
-
-            echo 'success';
-        }
     }
 }

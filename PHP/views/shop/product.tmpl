@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 {% if user.is_auth %}
-                <button class="add-to-cart pink">Add to cart</button>
+                <button class="add-to-cart pink cart-add-click" data-content="{{ data.product.id }}" price="{{ data.product.price }}">Add to cart</button>
                 {% endif %}
             </div>
         </div>

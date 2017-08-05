@@ -5,23 +5,34 @@ namespace controllers;
 
 use models\ProductModel;
 
+/**
+ * Контроллер магазина
+ * Class ShopController
+ * @package controllers
+ */
 class ShopController extends BaseController
 {
-    public function actionIndex()
+    /**
+     * /shop?params...
+     * @param null $params
+     */
+    public function actionIndex($params = NULL)
     {
+        if (!empty($params)){
+            if ($params['category']){
+                $data = ProductModel::getProductsByCategoryID($params['category']);
+                $this->render("shop/index", $data);
+                return;
+            }
+            if ($params['product']){
+                $data = ProductModel::getProductByID($params['product']);
+                $this->render("shop/product", $data);
+                return;
+            }
+        }
+
         $data = ['products' => ProductModel::findAll()];
-
         $this->render("shop/index", $data);
-    }
-
-    public function actionViewProduct($id)
-    {
-        $data = ProductModel::getProductByID($id);
-
-        if (empty($data))
-            $this->renderError();
-        else
-            $this->render("shop/product", $data);
     }
 
 }

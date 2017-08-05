@@ -3,9 +3,17 @@
 namespace models;
 
 
+/**
+ * Class ProductModel
+ * @package models
+ */
 class ProductModel extends BaseModel
 {
+    /**
+     * Имя таблицы
+     */
     const TABLE_NAME = 'products';
+
     const Photo     = 1;
     const Size      = 2;
     const Color     = 3;
@@ -13,6 +21,11 @@ class ProductModel extends BaseModel
     const Designer  = 5;
     const Related   = 6;
 
+    /**
+     * Получаем товар по его ID
+     * @param $id
+     * @return array
+     */
     public static function getProductByID($id)
     {
         $query = '
@@ -88,10 +101,14 @@ class ProductModel extends BaseModel
         }
 
         $data = ['product' => $data];
-
         return $data;
     }
 
+    /**
+     * Получаем товары определённой категории
+     * @param $categoryId
+     * @return array
+     */
     public static function getProductsByCategoryID($categoryId)
     {
         $query = '
@@ -100,19 +117,11 @@ class ProductModel extends BaseModel
                 p.name,
                 p.category_id,
                 p.price,
-                p.description,
-                pp.value,
-                pp.type,
-                pc.menu_name as category_name,
-                pc.url as category_url,
-                ppt.name as type_name
+                p.img_src
             FROM
-                `products` p
-            INNER JOIN `products_properties` pp
+                `'. self::TABLE_NAME .'` p
             INNER JOIN `products_categories` pc ON
                 pc.id = p.category_id
-            INNER JOIN `products_properties_types` ppt ON
-                ppt.id = pp.type
             WHERE
                 p.category_id = :category_id
             ';
@@ -124,8 +133,6 @@ class ProductModel extends BaseModel
         $result = self::execute($query, $props, true);
 
         $data = [];
-
-        // TODO:  все свойства копируются в каждый продукт ( условие по product.id??? )
 
         foreach ($result as $key => $col)
         {

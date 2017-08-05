@@ -2,48 +2,9 @@
 
 <div id="cart-list">
     <div class="wrapper">
+        <div id="cart_wrapper"></div>
 
-        {% if user.cart.cart_items|length %}
-
-        <table class="table table-responsive cart-table">
-            <thead>
-                <tr>
-                    <th>PRODUCT DETAILS</th>
-                    <th>UNITE PRICE</th>
-                    <th>QUANTITY</th>
-                    <th>SHIPPING</th>
-                    <th>SUBTOTAL</th>
-                    <th>ACTION</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for product in user.cart.cart_items %}
-                <tr>
-                    <th>
-                        <div class="cart-image">
-                            <img src="/img/{{ product.img_src }}" alt="" class="cart-image">
-                        </div>
-                        <div class="cart-details">
-                            <h5>{{ product.name }}</h5>
-                            <p>Color: {{ product.color }}</p>
-                            <p>Size: {{ product.size }}</p>
-                        </div>
-                    </th>
-                    <th><i class="fa fa-usd" aria-hidden="true"></i>{{ product.product_price|number_format(2, '.', ',') }}</th>
-                    <th>
-                        <div class="form-group col-xs-offset-3 col-xs-6">
-                            <input type="number" class="form-control cart_amount" min="1" value="{{ product.amount }}" data-content="{{ product.cart_id }}">
-                        </div>
-                    </th>
-                    <th>FREE</th>
-                    <th>{{ product.subtotal }}</th>
-                    <th><span class="glyphicon glyphicon-remove-circle cart-del" data-content="{{ product.id }}" aria-hidden="true"></span></th>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="col-md-12 cart-actions">
+     <div class="col-md-12 cart-actions">
             <div class="row cart-buttons">
                 <button class="btn btn-lg btn-default col-md-3 cart-clear">CLEAR SHOPPING CART</button>
                 <a href="/shop" class="btn btn-lg btn-default col-md-3 pull-right">CONTINUE SHOPPING</a>
@@ -78,8 +39,8 @@
                 <div class="col-md-4 text-right checkout-box">
                     <div>
                         <div class="chk-text-right">
-                            <small>SUB TOTAL <i class="fa fa-usd" aria-hidden="true"></i>{{ user.cart.cart_total|number_format(2, '.', ',') }}</small>
-                            <p class="chk-grandtotal">GRAND TOTAL <span class="pink"><i class="fa fa-usd" aria-hidden="true"></i>{{ user.cart.cart_total|number_format(2, '.', ',') }}</span></p>
+                            <small>SUB TOTAL <i class="fa fa-usd" aria-hidden="true"></i><span id="subtotal"></span></small>
+                            <p class="chk-grandtotal">GRAND TOTAL <span class="pink"><i class="fa fa-usd" aria-hidden="true"></i><span id="grandtotal"></span></span></p>
                         </div>
                         <div class="devider-wide2"></div>
                         <button class="btn btn-danger btn-lg col-xs-12">PROCESS TO CHECKOUT</button>
@@ -91,16 +52,8 @@
             </div>
 
         </div>
-
-        {% else %}
-            <div class="col-xs-12 text-center">
-                <h3>Cart is empty :'(</h3>
-                <a href="/shop" class="btn btn-lg btn-default">START SHOPPING</a>
-            </div>
-
-        {% endif %}
-    </div>
 </div>
+    </div>
 
 {% include "/partials/blocks/subscribe-block.tmpl" %}
 

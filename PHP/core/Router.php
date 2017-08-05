@@ -2,6 +2,10 @@
 
 namespace core;
 
+/**
+ * Class Router
+ * @package core
+ */
 class Router
 {
     private $routes = [];
@@ -15,12 +19,20 @@ class Router
         return preg_split('/\//', $url, -1, PREG_SPLIT_NO_EMPTY);
     }
 
+    /**
+     * Добавление роутов
+     */
     private function addRoutes()
     {
         $routes = Application::instance()->config['routes'];
         $this->routes = array_merge($this->routes, $routes);
     }
 
+    /**
+     * Стартуем роутер
+     * @param null $requestedUri
+     * @return mixed
+     */
     public function run($requestedUri = null)
     {
         // Добавляем маршруты
@@ -37,6 +49,7 @@ class Router
         if (isset($this->routes[$requestedUri]))
         {
             $this->params = $this->splitUrl($this->routes[$requestedUri]);
+            $this->params = array_merge($this->params, explode('=', explode('?', $_SERVER['REQUEST_URI'])[1]));
             return $this->executeAction();
         }
 
@@ -90,8 +103,20 @@ class Router
 
         if (empty($params))
             $controller->$action();
-        else
-            return call_user_func_array([$controller, $action], $params);
+        else {
+            if ($params){
+                $params = array_flip($params);
+
+                foreach ($params as $key => $val){
+                    $ks = $key;
+                    next($params);
+                    $params[$ks] = key($params);
+                }
+                array_pop($params);
+            }
+
+            return call_user_func_array([$controller, $action], [$params]);
+        }
     }
 
     public function redirect($to = '/')

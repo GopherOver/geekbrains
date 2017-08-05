@@ -3,6 +3,7 @@
 function getConfig()
 {
     return [
+        // Данные для подключения к базе данных
         'db' => [
             'default' => [
                 'host'      => 'localhost',
@@ -28,17 +29,17 @@ function getConfig()
             '/user/logout'                  => 'user/logout',           // экшн выхода
             '/user/cart/order'              => 'user/cartOrder',        // страница оформления заказа
             '/user/cart'                    => 'user/cartIndex',        // страница корзины
-            '/user'                         => 'user/index',            // страница "личного кабинета"
 
             // Магазин
-            '/shop/view/product/:num'       => 'shop/viewProduct/$1',   // просмотр товара
+           // '/shop/view/product/:num'       => 'shop/viewProduct/$1',   // просмотр товара
             '/shop'                         => 'shop/index',            // все товары
 
             // Корзина
-            '/cart/add'                     => '/user/addProductToUserCart', // Добавление товара в корзину
-            '/cart/del'                     => '/user/removeProductFromUserCart', // Удаление товара из корзины
-            '/cart/change'                  => '/user/changeQuantityProduct', // Удаление товара из корзины
-            '/cart/clear'                   => '/user/clearUserCart',   // Очистка корзины
+            '/cart/get'                     => '/cart/getCart', // Добавление товара в корзину
+            '/cart/add'                     => '/cart/addProductToUserCart', // Добавление товара в корзину
+            '/cart/del'                     => '/cart/removeProductFromUserCart', // Удаление товара из корзины
+            '/cart/change'                  => '/cart/changeQuantityProduct', // Удаление товара из корзины
+            '/cart/clear'                   => '/cart/clearUserCart',   // Очистка корзины
 
             // Администратор
             '/admin/order/statusChange'     => 'admin/statusChange',    // экшн смены статуса заказа
